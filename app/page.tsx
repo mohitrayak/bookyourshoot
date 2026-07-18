@@ -9,8 +9,6 @@ export default async function Home() {
   const { data: photographers, error } = await supabase
     .from("photographers")
     .select("*");
-console.log("Photographers:", photographers);
-console.log("Error:", error);
   if (error) {
     console.error(error);
   }

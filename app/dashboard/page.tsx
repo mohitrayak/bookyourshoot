@@ -1,6 +1,24 @@
+import PortfolioGallery from "@/components/dashboard/PortfolioGallery";
+import PortfolioUpload from "@/components/dashboard/PortfolioUpload";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-export default function DashboardPage() {
+import { createClient } from "@/lib/supabase/server";
+
+import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
+import ProfileForm from "@/components/dashboard/ProfileForm";
+
+export default async function DashboardPage() {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
   return (
     <main className="min-h-screen bg-black text-white">
 
@@ -25,126 +43,13 @@ export default function DashboardPage() {
       <div className="mx-auto flex max-w-7xl">
 
         {/* Sidebar */}
-
-        <aside className="w-72 border-r border-zinc-800 p-6">
-
-          <nav className="space-y-3">
-
-            <button className="w-full rounded-xl bg-yellow-400 px-4 py-3 text-left font-bold text-black">
-              📊 Dashboard
-            </button>
-
-            <button className="w-full rounded-xl px-4 py-3 text-left hover:bg-zinc-900">
-              👤 My Profile
-            </button>
-
-            <button className="w-full rounded-xl px-4 py-3 text-left hover:bg-zinc-900">
-              🖼 Portfolio
-            </button>
-
-            <button className="w-full rounded-xl px-4 py-3 text-left hover:bg-zinc-900">
-              💰 Packages
-            </button>
-
-            <button className="w-full rounded-xl px-4 py-3 text-left hover:bg-zinc-900">
-              📅 Availability
-            </button>
-
-            <button className="w-full rounded-xl px-4 py-3 text-left hover:bg-zinc-900">
-              ⭐ Reviews
-            </button>
-
-            <button className="w-full rounded-xl px-4 py-3 text-left hover:bg-zinc-900">
-              ⚙ Settings
-            </button>
-
-          </nav>
-
-        </aside>
+        <DashboardSidebar />
 
         {/* Main Content */}
-
         <section className="flex-1 p-10">
-
-          <h2 className="text-4xl font-bold">
-            My Profile
-          </h2>
-
-          <p className="mt-3 text-gray-400">
-            Update your profile information.
-          </p>
-
-          <form className="mt-10 max-w-3xl space-y-6">
-
-            <div>
-              <label className="mb-2 block text-sm text-gray-400">
-                Studio Name
-              </label>
-
-              <input
-                type="text"
-                placeholder="Rayak Photography"
-                className="w-full rounded-xl border border-zinc-700 bg-zinc-900 p-4 outline-none focus:border-yellow-400"
-              />
-            </div>
-
-            <div>
-              <label className="mb-2 block text-sm text-gray-400">
-                City
-              </label>
-
-              <input
-                type="text"
-                placeholder="Indore"
-                className="w-full rounded-xl border border-zinc-700 bg-zinc-900 p-4 outline-none focus:border-yellow-400"
-              />
-            </div>
-
-            <div>
-              <label className="mb-2 block text-sm text-gray-400">
-                Category
-              </label>
-
-              <input
-                type="text"
-                placeholder="Wedding Photographer"
-                className="w-full rounded-xl border border-zinc-700 bg-zinc-900 p-4 outline-none focus:border-yellow-400"
-              />
-            </div>
-
-            <div>
-              <label className="mb-2 block text-sm text-gray-400">
-                Starting Price
-              </label>
-
-              <input
-                type="text"
-                placeholder="₹50,000"
-                className="w-full rounded-xl border border-zinc-700 bg-zinc-900 p-4 outline-none focus:border-yellow-400"
-              />
-            </div>
-
-            <div>
-              <label className="mb-2 block text-sm text-gray-400">
-                About
-              </label>
-
-              <textarea
-                rows={6}
-                placeholder="Tell clients about yourself..."
-                className="w-full rounded-xl border border-zinc-700 bg-zinc-900 p-4 outline-none focus:border-yellow-400"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="rounded-xl bg-yellow-400 px-8 py-4 font-bold text-black transition hover:scale-105"
-            >
-              Save Profile
-            </button>
-
-          </form>
-
+          <ProfileForm />
+          <PortfolioUpload />
+          <PortfolioGallery images={[]} />
         </section>
 
       </div>
