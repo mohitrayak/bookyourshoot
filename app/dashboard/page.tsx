@@ -49,7 +49,7 @@ export default async function DashboardPage() {
         <section className="flex-1 p-10">
           <ProfileForm />
           <PortfolioUpload />
-          <PortfolioGallery images={[]} />
+          <PortfolioGallery />
         </section>
 
       </div>
