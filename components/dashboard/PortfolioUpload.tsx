@@ -46,11 +46,12 @@ const fileName =
       .from("portfolio")
       .getPublicUrl(fileName);
 
-   const { error: dbError } = await supabase
+  const { error: dbError } = await supabase
   .from("portfolio")
   .insert({
     user_id: user.id,
     image_url: data.publicUrl,
+    storage_path: fileName,
   });
     setUploading(false);
 
